@@ -10,7 +10,7 @@ export default function StartScreen({ onStart }) {
         fontSize: 48, fontWeight: 900, margin: 0, letterSpacing: 2,
         color: '#FFD700', textShadow: '0 0 20px #FF4444'
       }}>
-        RAGE FLAP
+        BLOW FLAP
       </h1>
       <p style={{ fontSize: 18, color: '#aaa', margin: 0 }}>
         scream to fly &nbsp;·&nbsp; silence to die

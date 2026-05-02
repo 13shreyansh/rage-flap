@@ -1,8 +1,8 @@
-# Rage Flap App
+# Blow Flap App
 
-This folder contains the React/Vite game app for Rage Flap.
+This folder contains the React/Vite game app for Blow Flap.
 
-Rage Flap is a voice-controlled Flappy Bird style game: blow into the microphone to flap, stay quiet to fall, and dodge the pipes.
+Blow Flap is a voice-controlled Flappy Bird style game: blow into the microphone to flap, stay quiet to fall, and dodge the pipes.
 
 ## How It Works
 

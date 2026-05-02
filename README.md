@@ -1,6 +1,6 @@
-# Rage Flap
+# Blow Flap
 
-Rage Flap is a tiny voice-controlled Flappy Bird game built for a stupid hackathon. Instead of tapping a button, you blow into the microphone to keep the bird alive.
+Blow Flap is a tiny voice-controlled Flappy Bird game built for a stupid hackathon. Instead of tapping a button, you blow into the microphone to keep the bird alive.
 
 The rules are simple: make noise to rise, go quiet to fall, dodge the pipes, and try not to look too dignified while yelling at a browser game.
 
