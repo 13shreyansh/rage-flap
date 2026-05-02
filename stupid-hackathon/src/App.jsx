@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import GameCanvas from './game/GameCanvas'
 import StartScreen from './ui/StartScreen'
 import DeadScreen from './ui/DeadScreen'
@@ -10,15 +10,15 @@ export default function App() {
   const [gameState, setGameState] = useState('IDLE')
   const [score, setScore] = useState(0)
   const [micError, setMicError] = useState(null)
-  const micRef = useRef(null)
-  const thresholdRef = useRef(0.02) // default fallback threshold (RMS scale)
+  const [mic, setMic] = useState(null)
+  const [screamThreshold, setScreamThreshold] = useState(0.02) // default fallback threshold (RMS scale)
 
   const requestMicAndStart = useCallback(async () => {
     setGameState('REQUESTING')
     setMicError(null)
     try {
       const mic = await setupMic()
-      micRef.current = mic
+      setMic(mic)
 
       // Calibrate for 1 second — measure room noise
       setGameState('CALIBRATING')
@@ -27,13 +27,13 @@ export default function App() {
       // RMS scale: baseline in quiet room ≈ 0.002, blowing ≈ 0.05–0.30
       // Margin of 0.015 clears ambient noise, minimum 0.01
       const margin = 0.015
-      thresholdRef.current = Math.max(baseline + margin, 0.01)
+      setScreamThreshold(Math.max(baseline + margin, 0.01))
 
       setScore(0)
       setGameState('PLAYING')
-    } catch (err) {
-      micRef.current = null
-      thresholdRef.current = 0.02
+    } catch {
+      setMic(null)
+      setScreamThreshold(0.02)
       setMicError('Mic blocked. Hold SPACE or click to flap.')
       setScore(0)
       setGameState('PLAYING')
@@ -46,17 +46,17 @@ export default function App() {
   }, [])
 
   const handleRestart = useCallback(async () => {
-    if (micRef.current) {
+    if (mic) {
       // Re-calibrate on every restart in case room noise changed
       setGameState('CALIBRATING')
-      const baseline = await calibrateBaseline(micRef.current.analyser, 1000)
-      thresholdRef.current = Math.max(baseline + 0.015, 0.01)
+      const baseline = await calibrateBaseline(mic.analyser, 1000)
+      setScreamThreshold(Math.max(baseline + 0.015, 0.01))
       setScore(0)
       setGameState('PLAYING')
     } else {
       await requestMicAndStart()
     }
-  }, [requestMicAndStart])
+  }, [mic, requestMicAndStart])
 
   return (
     <div style={{
@@ -80,8 +80,8 @@ export default function App() {
       {gameState === 'PLAYING' && (
         <GameCanvas
           onDead={handleDead}
-          analyser={micRef.current?.analyser ?? null}
-          screamThreshold={thresholdRef.current}
+          analyser={mic?.analyser ?? null}
+          screamThreshold={screamThreshold}
         />
       )}
 

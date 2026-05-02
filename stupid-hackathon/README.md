@@ -1,16 +1,42 @@
-# React + Vite
+# Rage Flap App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This folder contains the React/Vite game app for Rage Flap.
 
-Currently, two official plugins are available:
+Rage Flap is a voice-controlled Flappy Bird style game: blow into the microphone to flap, stay quiet to fall, and dodge the pipes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## How It Works
 
-## React Compiler
+- The player starts the game and grants microphone access.
+- The app listens quietly for one second to measure ambient room noise.
+- During play, loud input above the calibrated threshold makes the bird rise.
+- Silence makes the bird fall.
+- If microphone access fails, holding Space or pressing/clicking the canvas acts as the fallback flap input.
+- Passing a pipe adds one point.
+- Touching a pipe or the ground ends the run.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Scripts
 
-## Expanding the ESLint configuration
+```sh
+npm install
+npm run dev
+npm run build
+npm run lint
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Deploying
+
+Deploy this folder as the Vercel project root:
+
+```sh
+vercel --prod
+```
+
+## Project Shape
+
+- `src/App.jsx` owns the screen state machine and microphone calibration.
+- `src/audio/micInput.js` sets up Web Audio and calculates RMS volume.
+- `src/game/GameCanvas.jsx` runs the animation loop and canvas drawing.
+- `src/game/bird.js` contains the scream-to-rise movement and bird rendering.
+- `src/game/pipes.js` handles pipe spawning, movement, scoring, and drawing.
+- `src/game/collision.js` checks bird-vs-pipe collisions.
+- `src/ui/` contains the start, calibration, and death screens.

@@ -1,0 +1,11 @@
+{
+  "installCommand": "cd stupid-hackathon && npm install",
+  "buildCommand": "cd stupid-hackathon && npm run build",
+  "outputDirectory": "stupid-hackathon/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

@@ -11,7 +11,7 @@ const MESSAGES = [
 ]
 
 export default function DeadScreen({ score, onRestart, micError }) {
-  const msg = MESSAGES[Math.floor(Math.random() * MESSAGES.length)]
+  const msg = MESSAGES[score % MESSAGES.length]
 
   return (
     <div style={{
